@@ -1150,9 +1150,10 @@ public:
         double outlineSize,
         bool bold,
         double fontSize,
-        int subPos
+        int subPos,
+        bool useLibass
     ) {
-        setStringProperty("sub-ass-override", "force");
+        setStringProperty("sub-ass-override", useLibass ? "no" : "force");
         setStringProperty("sub-color", textColor.empty() ? "#FFFFFFFF" : textColor);
         setStringProperty("sub-back-color", backgroundColor.empty() ? "#00000000" : backgroundColor);
         setStringProperty("sub-outline-color", outlineColor.empty() ? "#FF000000" : outlineColor);
@@ -2415,7 +2416,8 @@ Java_com_nuvio_app_features_player_desktop_NativePlayerBridge_applySubtitleStyle
     jfloat outlineSize,
     jboolean bold,
     jfloat fontSize,
-    jint subPos
+    jint subPos,
+    jboolean useLibass
 ) {
     auto player = playerFromHandle(handle);
     if (!player) return;
@@ -2426,6 +2428,7 @@ Java_com_nuvio_app_features_player_desktop_NativePlayerBridge_applySubtitleStyle
         outlineSize,
         bold == JNI_TRUE,
         fontSize,
-        subPos
+        subPos,
+        useLibass == JNI_TRUE
     );
 }

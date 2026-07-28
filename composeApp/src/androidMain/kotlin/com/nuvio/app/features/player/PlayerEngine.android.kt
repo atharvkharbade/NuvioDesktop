@@ -829,7 +829,7 @@ private fun ExoPlayerSurface(
                     Log.d(TAG, "clearExternalSubtitleAndSelect: done, pending=$trackIndex position=$currentPosition")
                 }
 
-                override fun applySubtitleStyle(style: SubtitleStyleState) {
+                override fun applySubtitleStyle(style: SubtitleStyleState, useLibass: Boolean) {
                     currentSubtitleStyle = style
                     playerViewRef?.applySubtitleStyle(style, pipSubtitleScale)
                 }
@@ -1363,8 +1363,8 @@ private class NuvioLibmpvView(
                 selectSubtitleTrack(trackIndex)
             }
 
-            override fun applySubtitleStyle(style: SubtitleStyleState) {
-                mpv.setPropertyString("sub-ass-override", "no")
+            override fun applySubtitleStyle(style: SubtitleStyleState, useLibass: Boolean) {
+                mpv.setPropertyString("sub-ass-override", if (useLibass) "no" else "force")
                 mpv.setPropertyString("sub-color", style.textColor.toMpvColor())
                 mpv.setPropertyString("sub-back-color", style.backgroundColor.toMpvColor())
                 mpv.setPropertyString("sub-outline-color", style.outlineColor.toMpvColor())
