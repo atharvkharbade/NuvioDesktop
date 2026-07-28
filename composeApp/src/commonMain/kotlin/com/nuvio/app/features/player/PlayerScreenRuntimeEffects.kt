@@ -168,8 +168,8 @@ internal fun PlayerScreenRuntime.BindPlayerRuntimeEffects() {
         subtitleAutoSyncState = SubtitleAutoSyncUiState()
     }
 
-    LaunchedEffect(playerController, subtitleStyle) {
-        playerController?.applySubtitleStyle(subtitleStyle)
+    LaunchedEffect(playerController, subtitleStyle, playerSettingsUiState.useLibass) {
+        playerController?.applySubtitleStyle(subtitleStyle, playerSettingsUiState.useLibass)
     }
 
     LaunchedEffect(
