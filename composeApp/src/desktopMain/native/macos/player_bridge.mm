@@ -121,7 +121,8 @@
                              outlineSize:(double)outlineSize
                                     bold:(BOOL)bold
                                 fontSize:(double)fontSize
-                                  subPos:(int)subPos;
+                                  subPos:(int)subPos
+                               useLibass:(BOOL)useLibass;
 - (void)handleScriptMessage:(NSDictionary *)message;
 - (void)focusControlsWebViewIfNeeded;
 - (void)layoutNativeSubviews;
@@ -2018,9 +2019,10 @@ static void setMpvOptionString(mpv_handle *mpv, const char *name, const char *va
                              outlineSize:(double)outlineSize
                                     bold:(BOOL)bold
                                 fontSize:(double)fontSize
-                                  subPos:(int)subPos {
+                                  subPos:(int)subPos
+                               useLibass:(BOOL)useLibass {
     if (!_mpv) return;
-    [self setStringProperty:"sub-ass-override" value:@"force"];
+    [self setStringProperty:"sub-ass-override" value:useLibass ? @"no" : @"force"];
     [self setStringProperty:"sub-color" value:textColor ?: @"#FFFFFFFF"];
     [self setStringProperty:"sub-back-color" value:backgroundColor ?: @"#00000000"];
     [self setStringProperty:"sub-outline-color" value:outlineColor ?: @"#FF000000"];
@@ -2824,7 +2826,8 @@ Java_com_nuvio_app_features_player_desktop_NativePlayerBridge_applySubtitleStyle
     jfloat outlineSize,
     jboolean bold,
     jfloat fontSize,
-    jint subPos
+    jint subPos,
+    jboolean useLibass
 ) {
     if (handle == 0) return;
     std::string text = jstringToString(env, textColor);
@@ -2838,6 +2841,7 @@ Java_com_nuvio_app_features_player_desktop_NativePlayerBridge_applySubtitleStyle
                                      outlineSize:(double)outlineSize
                                             bold:bold == JNI_TRUE
                                         fontSize:(double)fontSize
-                                          subPos:(int)subPos];
+                                          subPos:(int)subPos
+                                       useLibass:useLibass == JNI_TRUE];
     });
 }
